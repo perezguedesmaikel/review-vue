@@ -40,11 +40,22 @@ function handleEmitNewInput(text: Ref<string>, board: any) {
 
 function createBoard() {
   const name = prompt('Name of the board')
-  boards.push({
-    id: crypto.randomUUID(),
-    name: name, items: [],
+  if (name !== '') {
+    boards.push({
+      id: crypto.randomUUID(),
+      name: name!, items: [],
 
-  })
+    })
+  }
+
+}
+
+function starDrag() {
+
+}
+
+function drop(event, dest) {
+
 }
 </script>
 
@@ -52,14 +63,10 @@ function createBoard() {
   <v-container class="ContainerStyle">
     <v-label>Canvas Table</v-label>
     <nav>
-      <ul>
-        <li>
-          <a href="#" @click="createBoard">Create board</a>
-        </li>
-      </ul>
+      <v-btn class="StyleCreateBoard" href="#" @click="createBoard">Create board</v-btn>
     </nav>
     <div class="board-container">
-      <div class="Boards">
+      <div class="Boards" @drop="" @dragover.prevent @dragenter.prevent>
         <div v-for="board in boards" :key="board.id" class="Board">
           <div>{{ board.name }}</div>
           <NewInput @on-new-items="(text)=>handleEmitNewInput(text,board)"/>
@@ -103,5 +110,12 @@ function createBoard() {
   background-color: white;
   padding: 10px;
   box-sizing: border-box;
+}
+
+.StyleCreateBoard {
+  margin-bottom: 10px;
+  text-decoration: none;
+  font-size: large;
+  color: blueviolet;
 }
 </style>
