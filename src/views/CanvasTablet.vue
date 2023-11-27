@@ -1,6 +1,19 @@
 <script lang="ts" setup>
-import {reactive, Ref} from "vue";
+import {reactive, ref, Ref} from "vue";
 import NewInput from "../components/canvas-component/NewInput.vue";
+
+const draggingItem = ref<IItems | null>(null);
+let draggingBoard = reactive([]);
+let initBoard = reactive<IBoard>({} as IBoard)
+
+interface IItems {
+  id: string,
+  title: string
+}
+
+interface IBoard {
+  items: IItems[]
+}
 
 let boards = reactive([
   {
@@ -50,12 +63,23 @@ function createBoard() {
 
 }
 
-function starDrag() {
-
+function starDrag(item: any, board: any) {
+  console.log('Aquí se empieza a arrastrar', item)
+  draggingItem.value = item
+  draggingBoard = board
 }
 
-function drop(event, dest) {
+function drop(board: any) {
+  console.log('Aquí se soltó', board)
+  board.items.push(draggingItem.value)
+  //drop
+  const itemsTemp: IItems[] = initBoard.items
+  initBoard.items = itemsTemp.filter(el => el.id !== draggingItem.value!.id!)
+}
 
+function dragStart(board: any) {
+  console.log('Aquí comienzo', board)
+  initBoard = board
 }
 </script>
 
@@ -66,12 +90,14 @@ function drop(event, dest) {
       <v-btn class="StyleCreateBoard" href="#" @click="createBoard">Create board</v-btn>
     </nav>
     <div class="board-container">
-      <div class="Boards" @drop="" @dragover.prevent @dragenter.prevent>
-        <div v-for="board in boards" :key="board.id" class="Board">
+      <div class="Boards">
+        <div v-for="board in boards" :key="board.id" class="Board" @dragstart="()=>dragStart(board)"
+             @drop="()=>drop(board)">
           <div>{{ board.name }}</div>
           <NewInput @on-new-items="(text)=>handleEmitNewInput(text,board)"/>
           <div class="items">
-            <div v-for="item in board.items" :key="item.id" class="item">
+            <div v-for="item in board.items" :key="item.id" :draggable="true" class="item"
+                 @dragstart="()=>starDrag(item,board)" @dragover.prevent @dragenter.prevent>
               {{ item.title }}
             </div>
           </div>
