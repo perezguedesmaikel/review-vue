@@ -92,7 +92,7 @@ function dragStart(board: any) {
     </nav>
     <div class="board-container">
       <div class="Boards">
-        <div v-for="board in boards" :key="board.id" class="Board" draggable="true" @dragstart="()=>dragStart(board)"
+        <div v-for="board in boards" :key="board.id" :draggable="true" class="Board" @dragstart="()=>dragStart(board)"
              @drop="()=>drop(board)" @dragover.prevent @dragenter.prevent>
           <div>{{ board.name }}</div>
           <NewInput @on-new-items="(text)=>handleEmitNewInput(text,board)"/>
