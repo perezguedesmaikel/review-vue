@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {reactive, ref, Ref} from "vue";
 import NewInput from "../components/canvas-component/NewInput.vue";
-
+//probe
 const draggingItem = ref<IItems | null>(null);
 let draggingBoard = reactive([]);
 let initBoard = reactive<IBoard>({} as IBoard)
