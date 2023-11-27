@@ -77,6 +77,7 @@ function drop(board: any) {
   initBoard.items = itemsTemp.filter(el => el.id !== draggingItem.value!.id!)
 }
 
+
 function dragStart(board: any) {
   console.log('Aquí comienzo', board)
   initBoard = board
@@ -91,8 +92,8 @@ function dragStart(board: any) {
     </nav>
     <div class="board-container">
       <div class="Boards">
-        <div v-for="board in boards" :key="board.id" class="Board" @dragstart="()=>dragStart(board)"
-             @drop="()=>drop(board)">
+        <div v-for="board in boards" :key="board.id" class="Board" draggable="true" @dragstart="()=>dragStart(board)"
+             @drop="()=>drop(board)" @dragover.prevent @dragenter.prevent>
           <div>{{ board.name }}</div>
           <NewInput @on-new-items="(text)=>handleEmitNewInput(text,board)"/>
           <div class="items">
